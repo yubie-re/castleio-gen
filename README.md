@@ -5,7 +5,7 @@ This project contains a reversal and reimplementation of castle.io's fingerprint
 With this project, you can generate a castle.io `X-Castle-Request-Token` and `__cuid`.
 
 ## Blog post
-View my [writeup](https://blog.yubie.dev/blog/test) for some context!
+View my [writeup](https://blog.yubie.dev/blog/castleio) for some context!
 
 Decoding a token:
 ```
