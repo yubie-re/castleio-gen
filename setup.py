@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='castleio',
-    version='0.1.9',
+    version='0.1.10',
     packages=['castleio'],
     install_requires=['pytz'],
     description='Generates castle.io tokens',
