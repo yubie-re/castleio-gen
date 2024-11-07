@@ -207,8 +207,8 @@ def get_fp_one(
         language: str,
         screen_dimensions_px_x: int,
         screen_dimensions_px_y: int,
-        browser_window_dimensions_px_x: int,
-        browser_window_dimensions_px_y: int,
+        screen_avail_dimensions_px_x: int,
+        screen_avail_dimensions_px_y: int,
         gpu_name: str,
         timezone: str):
     fp = [
@@ -217,7 +217,7 @@ def get_fp_one(
         get_language(language),
         get_device_memory(),
         get_screen_dims(screen_dimensions_px_x, screen_dimensions_px_y,
-                        browser_window_dimensions_px_x, browser_window_dimensions_px_y),
+                        screen_avail_dimensions_px_x, screen_avail_dimensions_px_y),
         get_screen_depth(),
         get_hardware_concurrency(),
         get_screen_pixel_ratio(),

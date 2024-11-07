@@ -23,7 +23,7 @@ class Config:
             language_iso_639_1: str = "nl-AW",
             time_zone_name: str = "America/Aruba",
             screen_dimensions_px: tuple[int, int] = (1920, 1080),
-            browser_window_dimensions_px: tuple[int, int] = (1920, 1032),
+            screen_avail_dimensions_px: tuple[int, int] = (1920, 1032),
             gpu: str = GPUType.NVIDIA_3060):
 
         self.public_key = public_key
@@ -32,7 +32,7 @@ class Config:
         self.language_iso_639_1 = language_iso_639_1
         self.time_zone_name = time_zone_name
         self.screen_dimensions_px = screen_dimensions_px
-        self.browser_window_dimensions_px = browser_window_dimensions_px
+        self.screen_avail_dimensions_px = screen_avail_dimensions_px
         self.gpu = gpu
 
 
@@ -48,5 +48,5 @@ class Build:
             self.environment.language_iso_639_1,
             self.environment.time_zone_name,
             self.environment.screen_dimensions_px,
-            self.environment.browser_window_dimensions_px,
+            self.environment.screen_avail_dimensions_px,
             self.environment.gpu)

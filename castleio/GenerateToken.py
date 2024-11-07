@@ -43,7 +43,7 @@ def gen_token(
         locale: str,
         time_zone_name: str,
         screen_dimensions_px: tuple[int, int],
-        browser_window_dimensions_px: tuple[int, int],
+        screen_avail_dimensions_px: tuple[int, int],
         gpu: str):
     """Generates a castle.io token & CUID
 
@@ -54,8 +54,8 @@ def gen_token(
     screen_dimensions_px_x = screen_dimensions_px[0]
     screen_dimensions_px_y = screen_dimensions_px[1]
 
-    browser_window_dimensions_px_x = browser_window_dimensions_px[0]
-    browser_window_dimensions_px_y = browser_window_dimensions_px[1]
+    browser_window_dimensions_px_x = screen_avail_dimensions_px[0]
+    browser_window_dimensions_px_y = screen_avail_dimensions_px[1]
 
     fp_one = get_fp_one(user_agent, language, screen_dimensions_px_x, screen_dimensions_px_y,
                         browser_window_dimensions_px_x, browser_window_dimensions_px_y, gpu, time_zone_name)
