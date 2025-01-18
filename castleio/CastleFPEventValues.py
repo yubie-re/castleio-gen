@@ -112,7 +112,7 @@ def get_bitfield() -> bytes:
     bit_array[9] = True
     bit_array[11] = True
     bit_array[12] = True
-    binary_num = bool_array_to_binary(bit_array, 15)
+    binary_num = bool_array_to_binary(bit_array, 16)
     encoded_num = (6 << 20) | (2 << 16) | (65535 & binary_num)
 
     

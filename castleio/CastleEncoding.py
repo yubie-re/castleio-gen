@@ -94,6 +94,7 @@ def bool_array_to_binary(n, t=None):
         r <<= (t - c)
 
     return r
+    
 
 def derive_key_and_xor_bytes(key: str, slice_len: int, rotation_key: str, data: bytes) -> bytes:
     real_key = key

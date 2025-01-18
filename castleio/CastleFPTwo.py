@@ -50,7 +50,19 @@ def get_const_one() -> bytes:
     return process_fp_value(FP2_CONSTANT_ONE, B2H, 0)
 
 
+time_zone_enum = {
+    "America/New_York" : 0,
+    "America/Sao_Paulo" : 1,
+    "America/Chicago" : 2,
+    "America/Los_Angeles" : 3,
+    "America/Mexico_City" : 4,
+    "Asia/Shanghai" : 5,
+}
+
 def get_time_zone(time_zone: str, init_time : int) -> bytes:
+    if time_zone in time_zone_enum:
+        return process_fp_value(FP2_TIME_ZONE, B2H, time_zone_enum[time_zone])
+
     return process_fp_value(FP2_TIME_ZONE, SERIALIZED_BYTE_ARRAY, time_zone.encode(), init_time)
 
 

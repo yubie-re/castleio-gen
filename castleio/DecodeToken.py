@@ -124,14 +124,17 @@ def decode_float_data_byte(byte, r=4, n=3):
         return 0
 
 def decode_flag_array(hex_bytes):
-    if len(hex_bytes) != 2:
+    if len(hex_bytes) != 3:
         raise ValueError("Input must be a list of two hexadecimal bytes.")
-    data = (hex_bytes[0] << 8) | hex_bytes[1]
-    binary_converted_num = data & 0x0FFF
-    N = binary_converted_num >> 4
-    binary_str = format(N, '08b')
+    packed_value = int.from_bytes(hex_bytes)
+    const_6 = (packed_value >> 20) & 0xFFF  # Extract the top 12 bits (const_6)
+    print(const_6)
+    n = (packed_value >> 16) & 0xF          # Extract the next 4 bits (n)
+    print(n)
+    ee_bitfield = packed_value & 0xFFFF     # Extract the lower 16 bits (ee(bitfield, 16))
+    binary_str = format(ee_bitfield, '08b')
     boolean_array = [bit == '1' for bit in binary_str]
-    return binary_converted_num, boolean_array
+    return ee_bitfield, boolean_array
 
 def decode_floats(buf):
         for i in range(0, 53):
@@ -248,10 +251,10 @@ def decode_token(token):
     cursor += event_log_size
     data_point_data = decryption_round_two[cursor:]
 
-    print(decode_flag_array(data_point_data[0:2]))
+    print(decode_flag_array(data_point_data[0:3]))
     #print("Event Flags:", bin(int.from_bytes(data_point_data[0:2], 'big')))
-    decode_floats(data_point_data[2:])
+    decode_floats(data_point_data[3:])
     i = 0
-    for byte in data_point_data[55:]:
+    for byte in data_point_data[56:]:
         print(f"EventData Int {i} {byte}")
         i += 1
