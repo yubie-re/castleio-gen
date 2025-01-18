@@ -8,6 +8,7 @@ from .CastleCustomFloat import CustomFloat
 from .CastleFPOne import FP_INFO_SIZES
 from .CastleFPTwo import FP2_INFO_SIZES
 from .CastleFPThree import FP3_INFO_SIZES
+from datetime import datetime,timezone
 
 
 
@@ -212,10 +213,12 @@ def decode_token(token):
     print("Version:", version)
     print("PK:", pk)
     print("CUID:", uuid)
-    print("InitTime:", init_time)
+    print("InitTime:", init_time, datetime.fromtimestamp(init_time /1000, timezone.utc))
     decryption_round_one = derive_key_and_xor_bytes(
         uuid, 8, uuid[9], rest)
-    print("SendTime:", decode_timestamp(decryption_round_one[:6]))
+    send_time = decode_timestamp(decryption_round_one[:6])
+    print("SendTime:", send_time, datetime.fromtimestamp(send_time /1000, timezone.utc))
+    print("TimeDiff: ", send_time-init_time)
     time_based_key = binascii.hexlify(decryption_round_one[:6]).decode('utf-8')
     decryption_round_two = derive_key_and_xor_bytes(
     time_based_key, 4, time_based_key[3], decryption_round_one[6:])

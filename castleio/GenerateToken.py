@@ -86,6 +86,8 @@ def gen_token(
     fingerprint =  header + encrypted_fp_data_two
     encrypted_fp = xxtea_encrypt(fingerprint, [1164413191, 3891440048, 185273099, 2746598870])
     encrypted_fp = b'\x0b' + (len(encrypted_fp) - len(fingerprint)).to_bytes(1) + encrypted_fp
+    encrypted_fp_len = ((len(encrypted_fp) * 2) & 0xff).to_bytes()
+    
     final = bytes([random_byte]) + xor_bytes(encrypted_fp + ((len(encrypted_fp) * 2) & 0xff).to_bytes(), bytes([random_byte]))
     return base64.urlsafe_b64encode(final).rstrip(b"=").decode('utf-8'), token_uuid
 
