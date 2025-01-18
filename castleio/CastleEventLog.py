@@ -80,7 +80,7 @@ EVENTLOG_ELEMENT_TYPES = [
 
 
 def generate_event_log():
-    """simple_events = [EVENT_MOUSEMOVE, EVENT_ANIMATIONSTART, EVENT_MOUSELEAVE, EVENT_MOUSEENTER, EVENT_RESIZE]
+    simple_events = [EVENT_MOUSEMOVE, EVENT_ANIMATIONSTART, EVENT_MOUSELEAVE, EVENT_MOUSEENTER, EVENT_RESIZE]
     target_events = [EVENT_CLICK, EVENT_BLUR, EVENT_FOCUS]
     all_events = simple_events + target_events
     count = random.randint(30,70)
@@ -91,9 +91,9 @@ def generate_event_log():
             result_arr += bytes([event_id | 128])
             result_arr += bytes([63])
         else:
-            result_arr += bytes([event_id])"""
-    count = 37
-    result_arr = binascii.unhexlify("853f56021587451380451387c6004115195601863f1915853f87c600788007c33f01191587c6007d80c60079d3c600010079c3c60001791519863f15853f87c6007387c6017e80c60178d3c60101007815d3c601010078c3c601007815874511804511")
+            result_arr += bytes([event_id])
+    #count = 37
+    #result_arr = binascii.unhexlify("853f56021587451380451387c6004115195601863f1915853f87c600788007c33f01191587c6007d80c60079d3c600010079c3c60001791519863f15853f87c6007387c6017e80c60178d3c60101007815d3c601010078c3c601007815874511804511")
     result_arr = b'\0' + count.to_bytes(2) + result_arr
     result_arr = len(result_arr).to_bytes(2) + result_arr
     return result_arr
