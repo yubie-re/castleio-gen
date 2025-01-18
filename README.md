@@ -3,6 +3,7 @@
 ## General description
 This project contains a reversal and reimplementation of castle.io's fingerprinting capabilities.
 With this project, you can generate a castle.io `X-Castle-Request-Token` and `__cuid`.
+This only works for sites using version 11 castle-io tokens (v2.6.0+).
 
 ## Blog post
 View my [writeup](https://blog.yubie.dev/blog/castleio) for some context!
