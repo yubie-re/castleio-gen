@@ -185,8 +185,12 @@ def decode_new_event_log(buf, count):
                 keydown_modifier_bitfield = buf[cursor:cursor+2]
                 cursor += 2
                 print("EVENT_MODIFIERDOWN:", bin(int.from_bytes(keydown_modifier_bitfield)))
+            elif event_id == EVENT_PASTE:
+                paste_bitfield = buf[cursor]
+                cursor += 1
+                print("EVENT_MODIFIERDOWN:", bin(paste_bitfield))
             else:
-                print("Invalid modifier found")
+                print("Invalid modifier found", event_id)
                 break
         if(has_hash):
             node_hash = buf[cursor]

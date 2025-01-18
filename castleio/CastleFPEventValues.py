@@ -104,12 +104,19 @@ def get_bitfield() -> bytes:
     # bit 5 = BackspaceCount
     # bit 6 = NotTouchCount
     # bit 7 = unk
-    bit_array = [False] * 12  # Create a 16-bit array initialized to False
+    bit_array = [False] * 15  # Create a 16-bit array initialized to False
     bit_array[2] = True
+    bit_array[3] = True
     bit_array[5] = True
-    binary_num = bool_array_to_binary(bit_array, 12)
-    encoded_num = ((4 << 12) | (4095 & binary_num))
-    return bytes([encoded_num >> 8, encoded_num & 0xFF, 0])
+    bit_array[6] = True
+    bit_array[9] = True
+    bit_array[11] = True
+    bit_array[12] = True
+    binary_num = bool_array_to_binary(bit_array, 15)
+    encoded_num = (6 << 20) | (2 << 16) | (65535 & binary_num)
+
+    
+    return encoded_num.to_bytes(3)
 
 def get_fp_event_values():
     return get_bitfield() + get_float_values() + get_event_ints()
