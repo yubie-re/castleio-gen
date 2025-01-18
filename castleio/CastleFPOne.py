@@ -5,7 +5,7 @@ from .CastleEncoding import *
 
 FP_PLATFORM_ENUM = 0
 FP_VENDOR_ENUM = 1
-FP_LANGUAGE = 2
+FP_LOCALE = 2
 FP_DEVICE_MEMORY = 3
 FP_SCREEN_DIMS = 4
 FP_SCREEN_DEPTH = 5
@@ -39,7 +39,7 @@ FP_CODEC_PLAYABILITY_BITFIELD = 31
 FP_INFO_SIZES = {
     FP_PLATFORM_ENUM: 2,
     FP_VENDOR_ENUM: 2,
-    FP_LANGUAGE: 7,
+    FP_LOCALE: 7,
     FP_SCREEN_DIMS: 7,
     FP_SCREEN_DEPTH: 2,
     FP_HARDWARE_CONCURRENCY: 2,
@@ -75,8 +75,8 @@ def get_platform_id() -> bytes:
 def get_vendor_id() -> bytes:
     return process_fp_value(FP_VENDOR_ENUM, B2H, 0)  # Google, Inc
 
-def get_language(language: str, init_time : int) -> bytes:
-    return process_fp_value(FP_LANGUAGE, SERIALIZED_BYTE_ARRAY, language.encode(), init_time)
+def get_locale(locale: str, init_time : int) -> bytes:
+    return process_fp_value(FP_LOCALE, SERIALIZED_BYTE_ARRAY, locale.encode(), init_time)
 
 def get_device_memory() -> bytes:
     return process_fp_value(FP_DEVICE_MEMORY, B2H_ROUNDED, 80)
@@ -206,7 +206,7 @@ def get_codec_playability() -> bytes:
 def get_fp_one(
         init_time : int,
         user_agent: str,
-        language: str,
+        locale: str,
         screen_dimensions_px_x: int,
         screen_dimensions_px_y: int,
         screen_avail_dimensions_px_x: int,
@@ -216,7 +216,7 @@ def get_fp_one(
     fp = [
         get_platform_id(),
         get_vendor_id(),
-        get_language(language, init_time),
+        get_locale(locale, init_time),
         get_device_memory(),
         get_screen_dims(screen_dimensions_px_x, screen_dimensions_px_y,
                         screen_avail_dimensions_px_x, screen_avail_dimensions_px_y),

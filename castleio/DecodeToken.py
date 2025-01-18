@@ -158,6 +158,7 @@ def parse_token_header(token):
 
 def decode_new_event_log(buf, count):
     cursor = 0
+    print(binascii.hexlify(buf), count)
     for i in range(0, count):
         event_info = buf[cursor]
         cursor += 1

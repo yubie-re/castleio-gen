@@ -62,7 +62,7 @@ def gen_token(
     browser_window_dimensions_px_x = screen_avail_dimensions_px[0]
     browser_window_dimensions_px_y = screen_avail_dimensions_px[1]
 
-    fp_one = get_fp_one(init_time, user_agent, language, screen_dimensions_px_x, screen_dimensions_px_y,
+    fp_one = get_fp_one(init_time, user_agent, locale, screen_dimensions_px_x, screen_dimensions_px_y,
                         browser_window_dimensions_px_x, browser_window_dimensions_px_y, gpu, time_zone_name)
     fp_two = get_fp_two(time_zone_name, locale, language, init_time)
     fp_three = get_fp_three(init_time)
