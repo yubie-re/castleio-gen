@@ -1520,15 +1520,15 @@ if (typeof window !== "undefined") {
           }
         },
         du = "Yxskaftbud, ge vår WC-zonmö IQ-hjälp. ",
-        lu = "canvas",
+        str__canvas = "canvas",
         gu = "13pt bogus-font-xxx",
         pu = "16pt Arial",
         yu = "rgba(102, 204, 0, 0.6123456789)",
         Hu = "evenodd",
         mu = "2d",
-        wu = "webgl",
-        bu = "experimental-",
-        Eu = "WEBGL_debug_renderer_info",
+        str__webgl = "webgl",
+        str__experimental = "experimental-",
+        str__WEBGL_debug_renderer_info = "WEBGL_debug_renderer_info",
         Du = "alphabetic",
         Cu = "multiply",
         ku = "getImageData",
@@ -4706,7 +4706,7 @@ if (typeof window !== "undefined") {
                     ),
                     RunAndCatch(function () {
                       var r = v,
-                        u = CreateDocumentElement(r, lu),
+                        u = CreateDocumentElement(r, str__canvas),
                         a = Fu(u) ? u.getContext(mu) : VoidConstant;
                       if (a)
                         return {
@@ -4755,9 +4755,9 @@ if (typeof window !== "undefined") {
                           Qn: RunAndCatch(function () {
                             return (t =
                               (n =
-                                (n = CreateDocumentElement(r, lu)).getContext(
-                                  wu
-                                ) || n.getContext(bu + wu)) && n.getExtension(Eu))
+                                (n = CreateDocumentElement(r, str__canvas)).getContext(
+                                  str__webgl
+                                ) || n.getContext(str__experimental + str__webgl)) && n.getExtension(str__WEBGL_debug_renderer_info))
                               ? n.getParameter(t.UNMASKED_RENDERER_WEBGL)
                               : VoidConstant;
                             var n, t;
@@ -5424,7 +5424,7 @@ if (typeof window !== "undefined") {
                                 yr: T(M("Screen", "pixelDepth")),
                               },
                               e = {
-                                zt: T(N("HTMLIFrameElement", "contentDocument")),
+                F                zt: T(N("HTMLIFrameElement", "contentDocument")),
                                 Pt: T(N("HTMLIFrameElement", "contentWindow")),
                                 Wt: T(N("Document", "createElement")),
                                 Gt: T(N("Document", "getElementById")),
@@ -5571,7 +5571,7 @@ if (typeof window !== "undefined") {
                           ));
                       var r = [
                         RunAndCatch(function () {
-                          var n = CreateDocumentElement(v, lu);
+                          var n = CreateDocumentElement(v, str__canvas);
                           if (Fu(n)) {
                             (t = e = Lu),
                               (r = (n = n).getContext(mu, 0 ? {} : Nu)),

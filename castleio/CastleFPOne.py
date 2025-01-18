@@ -75,8 +75,8 @@ def get_platform_id() -> bytes:
 def get_vendor_id() -> bytes:
     return process_fp_value(FP_VENDOR_ENUM, B2H, 0)  # Google, Inc
 
-def get_language(language: str) -> bytes:
-    return process_fp_value(FP_LANGUAGE, SERIALIZED_BYTE_ARRAY, language.encode())
+def get_language(language: str, init_time : int) -> bytes:
+    return process_fp_value(FP_LANGUAGE, SERIALIZED_BYTE_ARRAY, language.encode(), init_time)
 
 def get_device_memory() -> bytes:
     return process_fp_value(FP_DEVICE_MEMORY, B2H_ROUNDED, 80)
@@ -119,15 +119,16 @@ def get_browser_features() -> bytes:
     bitfield = encode_bits_to_bytes([0, 1, 2, 3, 4, 5, 6], 16)
     return process_fp_value(FP_BROWSER_FEATURES_BITFIELD, JUST_APPEND, bitfield_size + bitfield)
 
-def get_user_agent(user_agent: str) -> bytes:
+def get_user_agent(user_agent: str, init_time : int) -> bytes:
     user_agent = user_agent.encode()
+    user_agent = xxtea_encrypt(user_agent, [FP_USER_AGENT, int(init_time), 16373134, 643144773, 1762804430, 1186572681, 1164413191])
     out = bytes([1])  # Data Length Size
     out += bytes([len(user_agent)])  # Data Length
     out += user_agent
     return process_fp_value(FP_USER_AGENT, JUST_APPEND, out)
 
-def get_font_render_hash() -> bytes:
-    return process_fp_value(FP_FONT_RENDER_HASH, SERIALIZED_BYTE_ARRAY, b'54b4b5cf')
+def get_font_render_hash(init_time : int) -> bytes:
+    return process_fp_value(FP_FONT_RENDER_HASH, SERIALIZED_BYTE_ARRAY, b'54b4b5cf', init_time)
 
 def get_media_input_bitfield() -> bytes:
     bitfield_size = bytes([3])
@@ -143,15 +144,15 @@ def get_java_enabled() -> bytes:
 def get_product_sum() -> bytes:
     return process_fp_value(FP_PRODUCT_SUB_ENUM, B2H, 0)
 
-def get_circle_hash() -> bytes:
-    return process_fp_value(FP_CIRCLE_RENDER_HASH, SERIALIZED_BYTE_ARRAY, b'c6749e76')
+def get_circle_hash(init_time : int) -> bytes:
+    return process_fp_value(FP_CIRCLE_RENDER_HASH, SERIALIZED_BYTE_ARRAY, b'c6749e76', init_time)
 
-def get_gpu(gpu_name: str) -> bytes:
-    return process_fp_value(FP_GRAPHICS_CARD, SERIALIZED_BYTE_ARRAY, gpu_name.encode())
+def get_gpu(gpu_name: str, init_time : int) -> bytes:
+    return process_fp_value(FP_GRAPHICS_CARD, SERIALIZED_BYTE_ARRAY, gpu_name.encode(), init_time)
 
-def get_epoch_str() -> bytes:
+def get_epoch_str(init_time : int) -> bytes:
     epoch = b'12/31/1969, 7:00:00 PM'
-    return process_fp_value(FP_EPOCH_LOCALE_STR, SERIALIZED_BYTE_ARRAY, epoch)
+    return process_fp_value(FP_EPOCH_LOCALE_STR, SERIALIZED_BYTE_ARRAY, epoch, init_time)
 
 def get_driver_detection_flags() -> bytes:
     bitfield_size = bytes([8])
@@ -203,6 +204,7 @@ def get_codec_playability() -> bytes:
     return process_fp_value(FP_CODEC_PLAYABILITY_BITFIELD, JUST_APPEND, out)
 
 def get_fp_one(
+        init_time : int,
         user_agent: str,
         language: str,
         screen_dimensions_px_x: int,
@@ -214,7 +216,7 @@ def get_fp_one(
     fp = [
         get_platform_id(),
         get_vendor_id(),
-        get_language(language),
+        get_language(language, init_time),
         get_device_memory(),
         get_screen_dims(screen_dimensions_px_x, screen_dimensions_px_y,
                         screen_avail_dimensions_px_x, screen_avail_dimensions_px_y),
@@ -225,13 +227,13 @@ def get_fp_one(
         get_mime_types_hash(),
         get_plugins_hash(),
         get_browser_features(),
-        get_user_agent(user_agent),
-        get_font_render_hash(),
+        get_user_agent(user_agent, init_time),
+        get_font_render_hash(init_time),
         get_media_input_bitfield(),
         get_product_sum(),
-        get_circle_hash(),
-        get_gpu(gpu_name),
-        get_epoch_str(),
+        get_circle_hash(init_time),
+        get_gpu(gpu_name, init_time),
+        get_epoch_str(init_time),
         get_driver_detection_flags(),
         get_eval_string_length(),
         get_recursion_limit(),

@@ -2,6 +2,8 @@ import binascii
 from itertools import cycle
 import os
 
+from castleio.TEA import xxtea_encrypt
+
 def byte_to_bytes(byte_val):
     return bytes([byte_val])
 
@@ -28,7 +30,7 @@ def values_to_bytes(n, t) -> bytes:
     else:
         return int_to_fixed_size_bytes_be(r, 2) + int_to_fixed_size_bytes_be(e, 2)
 
-def process_fp_value(index, valueType, val):
+def process_fp_value(index, valueType, val, init_time = None):
     e = bytes([((31 & index) << 3) | (7 & valueType)])
     if valueType == B2H_ROUNDED:
         e += byte_to_bytes(round(val))
@@ -40,8 +42,9 @@ def process_fp_value(index, valueType, val):
         else:
             e += int_to_fixed_size_bytes_be((1 << 15) | (32767 & val), 2)
     elif valueType == SERIALIZED_BYTE_ARRAY:
-        e += bytes([len(val)])
-        e += val
+        encrypted_bytes = xxtea_encrypt(val, [index, int(init_time), 16373134, 643144773, 1762804430, 1186572681, 1164413191])
+        e += bytes([len(encrypted_bytes)])
+        e += encrypted_bytes
     elif valueType == JUST_APPEND:
         e += val if isinstance(val, bytes) else bytes([val])
     return e
@@ -137,3 +140,20 @@ def xor_and_append_key(buf, key) -> str:
     xor_result = xor_hex_strings(buff[1:], key_hex[1])
     out = xor_result + key_hex[1] 
     return out
+
+def decrypt_nibble_xor(encoded_buf):
+    int_representation = int.from_bytes(encoded_buf)
+    nibble_key = int_representation & 0xF
+    int_representation >>= 4
+    encoded_buf = int.to_bytes(int_representation, len(encoded_buf))
+    encoded_buf = xor_hex_strings(get_hex(encoded_buf)[1:], get_hex(bytes([nibble_key]))[1])
+    return binascii.unhexlify('0' + encoded_buf)
+
+def decode_timestamp(buf : list[6]) -> int:
+    time = int.from_bytes(decrypt_nibble_xor(buf[:4]))
+    ms = int.from_bytes(decrypt_nibble_xor(buf[4:]))
+    time += 1535e6
+    time *= 1000
+    time += ms
+    return time
+

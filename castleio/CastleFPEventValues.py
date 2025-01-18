@@ -80,7 +80,7 @@ def get_float_values():
     return out_fp
 
 def get_event_ints() -> bytes:
-    return bytes([
+    int_values = [
         random.randrange(100,200), # EVENT_MMOUSEMOVE 0
         random.randrange(1, 5), # EVENT_KEYUP 1 
         random.randrange(1, 5), # EVENT_CLICK 2
@@ -90,7 +90,10 @@ def get_event_ints() -> bytes:
         0, # EVENT_MOUSEDOWN - EVENT_MOUSEUP 6 
         0, # DataPoint_mouse_VectorDiff_Rounded 7
         random.randrange(0, 5), # WheelDataPointCounter 8
-    ])
+        random.randrange(0, 11), # unk1
+        random.randrange(0, 1), # unk2
+    ]
+    return bytes(int_values) + len(int_values).to_bytes()
 
 def get_bitfield() -> bytes:
     # bit 0 = 0 < DataPoint_Mouse_TimeDiff_KeyDownUp_1000.G.p
@@ -106,7 +109,7 @@ def get_bitfield() -> bytes:
     bit_array[5] = True
     binary_num = bool_array_to_binary(bit_array, 12)
     encoded_num = ((4 << 12) | (4095 & binary_num))
-    return bytes([encoded_num >> 8, encoded_num & 0xFF])
+    return bytes([encoded_num >> 8, encoded_num & 0xFF, 0])
 
 def get_fp_event_values():
     return get_bitfield() + get_float_values() + get_event_ints()
